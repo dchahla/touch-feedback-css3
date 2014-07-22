@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>V1</title>
+ <link rel="stylesheet" type="text/css" href="style.css">
+ <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+ <script src="jquery.transit.js"></script>
+ <script type="text/javascript">
+      $(document).ready(function(){
+        //find coordinates of click
+        $('.clickable').bind('click', function (ev) {
+        var $div = $(ev.target);
+        var $display = $div.find('.display');
+        
+        var offset = $div.offset();
+        var x = ev.clientX - offset.left;
+        var y = ev.pageY - offset.top;
+       
+        //print coordinates
+         console.log(x + ',' + y );
+
+        //do 3d transformation, just do it!
+        //if (y =< )
+        var halfwidth = $(window).width() * 0.5;
+        var halfheight = screen.height * 0.5;
+        var middleTolerancePixels = 200;
+        var rotationAmount = 1;
+        function animateRotateXBegin(){
+          if(x < halfwidth-middleTolerancePixels)
+            return -1*rotationAmount;
+          else if(x < halfwidth + middleTolerancePixels)
+            return 0;
+          else
+            return rotationAmount;            
+        }
+
+        function animateRotateYBegin(){
+          // do stuff
+         if(y > halfheight+middleTolerancePixels)
+            return -1*rotationAmount;
+          else if(y > halfheight - middleTolerancePixels)
+            return 0;
+          else
+            return rotationAmount;            
+        }
+
+        var perspective = '300px';
+
+        $('#clickImage').transition({
+            perspective: perspective,
+            rotateX: animateRotateYBegin(),
+            rotateY: animateRotateXBegin(),
+           // scale:0.9
+
+            //duration, then a function to go back to normal
+          }, 350, function(){
+            $('#clickImage').transition({
+            perspective: perspective,
+            rotateX: 0,
+            rotateY: 0,
+            //scale:1
+          })
+        });//transition
+
+
+
+      
+        }) // clickable bind
+        });// document ready
+ </script>
+</head>
+<body>
+
+  <div id='clickImage'>
+    <div class='clickable'>
+
+    <img src="img/SJ_001.jpg"></div>
+
+
+</div>
+
+</body>
+</html>
